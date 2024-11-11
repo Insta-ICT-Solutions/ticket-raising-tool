@@ -21,8 +21,10 @@ function AdminTickets() {
   const location = useLocation();
   const navigate = useNavigate();
   const isSpecialRoute =
-    location.pathname.includes("/admin-tickets/new-ticket") ||
-    location.pathname.includes("/admin-tickets/add-engineer");
+    location.pathname.includes("/SuperAdminDashboard/new-ticket") ||
+    location.pathname.includes("/SuperAdminDashboard/viewticket") ||
+    location.pathname.includes("/SuperAdminDashboard/ticket-detail");
+  // location.pathname.includes("/admin-tickets/add-engineer");
 
   useEffect(() => {
     // Simulate a loading delay (2 seconds)
@@ -39,7 +41,7 @@ function AdminTickets() {
 
   // const handleLogout = () => {
   //   Swal.fire({
-  //     title: "Are you sure you want to logout?",
+  //     title: "Are you sure you want to logout?", 
   //     text: "You'll be logged out from the system.",
   //     icon: "warning",
   //     background: "#f7f9fc",
@@ -97,7 +99,6 @@ function AdminTickets() {
       }
     });
   };
-  
 
   const closeSidebar = () => {
     setSidebarOpen(false);
@@ -122,7 +123,7 @@ function AdminTickets() {
                   className="animated-text"
                   initial={{ opacity: 0, y: -50 }} // Starting point of the animation (offscreen and invisible)
                   animate={{ opacity: 1, y: 0 }} // Ending point (fully visible and in position)
-                  transition={{ duration: 1, ease: "easeOut" }}// Animation duration and easing
+                  transition={{ duration: 1, ease: "easeOut" }} // Animation duration and easing
                 >
                   Insta ICT Solutions
                 </motion.span>
@@ -145,31 +146,31 @@ function AdminTickets() {
               <div className="top-section">
                 <h2 className="sidebar-title">Admin Dashboard</h2>
                 <ul>
-  <li>
-    <Link to="tickets" onClick={closeSidebar}>
-      <FaTicketAlt className="icon" />
-      <span>Tickets</span>
-    </Link>
-  </li>
-  <li>
-    <Link to="engineering" onClick={closeSidebar}>
-      <FaUsers className="icon" />
-      <span>Engineer</span>
-    </Link>
-  </li>
-  <li>
-    <Link to="report-generation" onClick={closeSidebar}>
-      <FaFileAlt className="icon" />
-      <span>Report Generation</span>
-    </Link>
-  </li>
-  <li>
-    <Link to="approval" onClick={closeSidebar}>
-      <FaCheckCircle className="icon" />
-      <span>My Tickets</span>
-    </Link>
-  </li>
-</ul>
+                  <li>
+                    <Link to="tickets" onClick={closeSidebar}>
+                      <FaTicketAlt className="icon" />
+                      <span>Tickets</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="engineering" onClick={closeSidebar}>
+                      <FaUsers className="icon" />
+                      <span>Engineer</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="report-generation" onClick={closeSidebar}>
+                      <FaFileAlt className="icon" />
+                      <span>Report Generation</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="approval" onClick={closeSidebar}>
+                      <FaCheckCircle className="icon" />
+                      <span>My Tickets</span>
+                    </Link>
+                  </li>
+                </ul>
               </div>
 
               <div className="bottom-section">

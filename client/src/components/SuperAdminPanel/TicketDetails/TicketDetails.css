@@ -1,239 +1,208 @@
-/* Base styles */
-.ticket-container {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 auto;
-  padding: 20px;
-  max-width: 100%;
+/* Base container styling */
+.ticket-details-container {
+  padding: 15px;
+}
+
+.ticket-details-paper {
+  padding: 24px;
+  margin-top: 24px;
   background-color: #f9f9f9;
+  border-radius: 10px;
 }
 
-.ticket-left, .ticket-right {
-  padding: 20px;
-  border: 1px solid #ddd;
-  background-color: #fff;
+/* Typography */
+.ticket-title {
+  font-weight: bold;
+  color: #3f51b5;
+  margin-bottom: 16px;
+}
+
+.ticket-description, .ticket-info {
+  color: #666;
+}
+
+/* Divider */
+.divider-spacing {
+  margin: 16px 0;
+  background-color: #3f51b5;
+  height: 2px;
+}
+
+/* Ticket Info Styling */
+.ticket-info {
+  padding: 16px;
+  background-color: #ffffff;
   border-radius: 8px;
-  margin-bottom: 20px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Left section: 75% width */
-.ticket-left {
-  flex: 3;
-  margin-right: 20px;
+.ticket-info h6 {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 12px;
 }
 
-.ticket-left h2 {
-  margin-bottom: 20px;
+.ticket-info .MuiTypography-root {
+  margin: 8px 0;
 }
 
-.ticket-left p {
-  margin: 10px 0;
+.ticket-title::before {
+  content: "📄"; /* Sticker for the title */
+  position: absolute;
+  left: -40px;
+  top: -5px;
+  font-size: 24px;
 }
 
-.reply-section-fixed {
-  margin-top: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px;
-  background-color: #f9f9f9;
+.select-container {
+  margin-top: 8px;
 }
 
-.reply-box {
-  max-height: 200px; /* Set the maximum height for the reply box */
-  overflow-y: auto; /* Enable vertical scroll when content overflows */
-  border: 1px solid #ccc; /* Optional: Add a border to the reply box */
-  padding: 10px; /* Optional: Add padding inside the box */
-  background-color: #f9f9f9; /* Optional: Set background color */
+/* Priority and Status Dropdowns */
+.MuiSelect-root {
+  background-color: #f3f3f3;
+  border-radius: 4px;
+  padding: 8px 12px;
 }
 
-.reply-toolbar {
-  display: flex;
-  align-items: center;
-  margin-top: 10px; /* Space above the toolbar */
-  gap: 10px; /* Space between icons */
+.MuiSelect-root:focus {
+  background-color: #eaeaea;
 }
 
-.filename-display {
-  margin-left: 10px; /* Space between the last icon and filename */
-  font-weight: bold; /* Make filename bold for emphasis */
-  color: #333; /* Optional: Change color */
-}
-
-/* TicketDetails.css */
-.ticket-container {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-}
-
-.ticket-left, .ticket-right {
-  width: 48%;
-}
-
-.reply-section-fixed {
-  margin-top: 20px;
-}
-
-.send-btn {
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #28a745;
+/* Buttons */
+.MuiButton-root {
+  margin-top: 12px;
+  background-color: #3f51b5;
   color: white;
-  border: none;
-  cursor: pointer;
+  text-transform: none;
 }
 
-.ticket-priority, .ticket-action, .responsibility-section {
-  margin-top: 20px;
+.MuiButton-root:hover {
+  background-color: #303f9f;
 }
 
-.engineer-dropdown {
-  list-style: none;
-  padding: 0;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  background-color: white;
-}
-
-.engineer-dropdown li {
-  padding: 8px;
-  cursor: pointer;
-}
-
-.engineer-dropdown li:hover {
-  background-color: #f0f0f0;
-}
-
-.assign-btn {
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-/* .reply-toolbar {
+.admin-list {
   display: flex;
-  align-items: center; /* Align items vertically center */
-   /* Space above the toolbar */
- 
-
-.reply-toolbar .format-icon {
-  margin-right: 5%; /* Space between format icons */
-  margin-left: 10%;
+  flex-direction: column;
+  margin-top: 8px;
 }
 
-.file-upload {
-  margin-left: 5px; /* Space between format icons and file upload */
+.admin-list .MuiButton-root {
+  background-color: #f5f5f5;
+  color: #333;
+  margin: 4px 0;
 }
 
-/* Optional: Adjust the file input styling */
-.file-upload input[type="file"] {
-  margin: 0; /* Remove default margins */
-  padding: 5px; /* Add some padding for aesthetics */
+.admin-list .MuiButton-root:hover {
+  background-color: #e0e0e0;
 }
 
-
-.send-btn {
-  background-color: #007bff;
-  color: white;
-  padding: 8px 16px;
-  border: none;
+/* Message Section */
+.message-list {
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #f9fafb;
   border-radius: 5px;
-  cursor: pointer;
   margin-top: 10px;
-  float: right;
+  margin-bottom: 15px;
 }
 
-/* Right section: 25% width */
-.ticket-right {
-  flex: 1;
-  margin-right: 0;
-}
-
-.ticket-right p {
-  margin: 10px 0;
-}
-
-/* Dropdown styles for Status, Priority, and Action */
-.ticket-status, .ticket-priority, .ticket-action {
-  margin-bottom: 20px;
-}
-
-.ticket-right label {
-  font-weight: bold;
-  margin-bottom: 5px;
-  display: block;
-}
-
-.ticket-right select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  height: 40px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-
-/* Responsibility Section */
-.responsibility-section p {
-  font-weight: bold;
+/* .message-item {
   margin-bottom: 10px;
+  padding: 10px;
+  background-color: #eef2f7;
+  border-radius: 6px;
+  color: #34495e;
 }
 
-.assign-btn {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+.message-item strong {
+  color: #3f51b5;
+} */
+ 
+.message-item {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+/* Sender Message Styling */
+.message-item .sender {
+  font-weight: bold;
+  color: #0d6efd; /* Primary blue color for the sender's name */
+}
+
+/* Sent Message Styling */
+.message-item.sent {
+  background-color: #d1e7dd; /* Light green for sent messages */
+  align-self: flex-end;
+  text-align: right;
+}
+
+/* Received Message Styling */
+.message-item.received {
+  background-color: #e2e3e5; /* Light gray for received messages */
+  align-self: flex-start;
+  text-align: left;
+}
+
+
+/* Input fields */
+.MuiTextField-root {
+  margin-top: 12px;
+}
+
+#file-input + label {
+  display: inline-block;
+  margin-top: 16px;
+  color: #3f51b5;
   cursor: pointer;
 }
 
-.assign-btn:hover {
-  background-color: #0056b3;
-}
-
-/* Align text fields */
-.ticket-details p, .ticket-right p, .ticket-left p, .ticket-status label, .ticket-priority label, .ticket-action label {
-  line-height: 1.6;
+#file-input + label:hover {
+  text-decoration: underline;
 }
 
 /* Responsive Design */
-
-/* Medium screens (tablets, 768px and above) */
 @media (max-width: 768px) {
-  .ticket-left, .ticket-right {
-    flex: 1; /* Stack the sections */
-    margin-right: 0;
-    margin-bottom: 20px;
+  .ticket-details-paper {
+    padding: 16px;
+  }
+
+  .MuiTypography-h4 {
+    font-size: 1.8rem;
+  }
+
+  .ticket-title {
+    font-size: 1.5rem;
+  }
+
+  .message-list {
+    max-height: 150px;
   }
 }
 
-/* Small screens (mobile, 480px and below) */
-@media (max-width: 480px) {
-  .ticket-left, .ticket-right {
-    flex: 1; /* Keep both sections visible */
-    margin-right: 0;
-    margin-bottom: 20px;
-    width: 100%; /* Full width for mobile */
+@media screen and (max-width: 576px) {
+  .ticket-info {
+    margin-top: 20px;
   }
 
-  .send-btn {
-    width: 100%; /* Make send button full width */
+  .message-list {
+    max-height: 200px;
   }
 
-  .reply-box {
-    height: auto; /* Allow the reply box to grow as needed */
+  .ticket-title::before {
+    font-size: 18px;
+    left: -30px;
   }
+}
 
-  .reply-toolbar {
-    flex-direction: column; /* Stack toolbar buttons vertically */
-    align-items: flex-start; /* Align items to the left */
-  }
+.message-list::-webkit-scrollbar {
+  width: 8px;
+}
 
-  .reply-toolbar button, .reply-toolbar label {
-    margin-bottom: 5px; /* Add space between buttons */
-  }
+.message-list::-webkit-scrollbar-thumb {
+  background-color: #d4d4d8;
+  border-radius: 4px;
 }

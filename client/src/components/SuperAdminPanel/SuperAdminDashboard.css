@@ -13,26 +13,27 @@
   color: #333;
   height: 100vh;
   position: fixed;
-  left: -240px; /* Hidden by default */
+  left: -240px;
   top: 0;
   z-index: 2;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
-  border-radius: 0 15px 15px 0; /* Rounded right corners */
-  overflow: hidden; /* Prevent overflow */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 0 15px 15px 0;
+  overflow: hidden;
+  transition: left 0.3s ease;
 }
 
 .sidebar.open {
-  left: 0; /* Reveal the sidebar */
+  left: 0;
 }
 
 .loader-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full height to center the loader vertically */
+  height: 100vh;
 }
 
-
+/* Sidebar title and items */
 .sidebar-title {
   text-align: center;
   font-size: 1.5rem;
@@ -40,11 +41,10 @@
   color: #007bff;
 }
 
-/* Sidebar menu items */
 .sidebar ul {
   list-style-type: none;
   padding: 0;
-  margin-top: 10px; /* Space from top */
+  margin-top: 10px;
 }
 
 .sidebar ul li {
@@ -56,15 +56,15 @@
 }
 
 .sidebar ul li:hover {
-  background-color: rgba(0, 123, 255, 0.1); /* Light blue background on hover */
-  transform: translateX(8px); /* Move to right slightly */
-  border-radius: 10px; /* Round corners on hover */
+  background-color: rgba(0, 123, 255, 0.1);
+  transform: translateX(8px);
+  border-radius: 10px;
 }
 
 .sidebar ul li .icon {
   margin-right: 15px;
   font-size: 20px;
-  color: #007bff; /* Blue icon color */
+  color: #007bff;
 }
 
 .sidebar ul li a {
@@ -76,7 +76,7 @@
   width: 100%;
 }
 
-/* Add transition effects for bottom section */
+/* Bottom section */
 .sidebar .bottom-section {
   position: absolute;
   bottom: 20px;
@@ -91,32 +91,31 @@
 }
 
 .bottom-section ul li:hover {
-  background-color: rgba(0, 123, 255, 0.1); /* Light blue background on hover */
-  transform: translateX(8px); /* Move to right slightly */
+  background-color: rgba(0, 123, 255, 0.1);
+  transform: translateX(8px);
 }
 
 .bottom-section ul li .icon {
-  color: #007bff; /* Red icon color */
+  color: #007bff;
 }
 
 /* Header */
 .header {
   background-color: #007bff;
   color: white;
-  padding: 10px 30px; /* Adjust padding */
+  padding: 10px 30px;
   font-size: 24px;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Space between hamburger and logo */
+  justify-content: space-between;
   width: 100%;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 100;
-  overflow: hidden; /* Prevent scrollbars */
 }
 
-.animated-text{
+.animated-text {
   font-weight: bold;
 }
 
@@ -127,8 +126,8 @@
 }
 
 .logo {
-  height: 40px; /* Adjust the logo size as needed */
-  margin-left: 20px; /* Add space between logo and edge */
+  height: 40px;
+  margin-left: 20px;
 }
 
 /* Hamburger Icon */
@@ -137,32 +136,112 @@
   color: white;
   cursor: pointer;
   z-index: 1000;
-  margin-right: auto; /* Ensure hamburger is on the left */
-}
-
-/* Fade-out animation */
-.fade-out {
-  animation: fadeOut 1s forwards; /* Apply fade-out animation */
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-10px); /* Optional upward movement */
-  }
+  margin-right: auto;
 }
 
 /* Content */
 .content {
-  margin-top: 70px; /* Adjust for the fixed header */
+  margin-top: 70px;
   padding: 20px;
-  background-color: #f7f9fc; /* Light background */
+  background-color: #f7f9fc;
   width: 100%;
 }
 
 .sidebar.open + .content {
-  margin-left: 240px; /* Shift content when sidebar opens */
+  margin-left: 240px;
+}
+
+/* Responsive Adjustments */
+
+/* For tablets and small desktops */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 220px;
+  }
+
+  .sidebar ul li {
+    padding: 12px 18px;
+  }
+
+  .sidebar-title {
+    font-size: 1.4rem;
+  }
+
+  .header {
+    font-size: 22px;
+    padding: 8px 20px;
+  }
+
+  .content {
+    padding: 16px;
+  }
+
+  .sidebar.open + .content {
+    margin-left: 220px;
+  }
+}
+
+/* For smaller tablets and large mobiles */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+    position: fixed;
+    z-index: 5;
+  }
+
+  .sidebar ul li {
+    padding: 10px 16px;
+  }
+
+  .sidebar-title {
+    font-size: 1.3rem;
+  }
+
+  .header {
+    font-size: 20px;
+    padding: 6px 15px;
+  }
+
+  .content {
+    padding: 14px;
+  }
+
+  .sidebar.open + .content {
+    margin-left: 200px;
+  }
+}
+
+/* For mobile screens */
+@media (max-width: 576px) {
+  .sidebar {
+    width: 100%;
+    left: -100%;
+    height: 100%;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .sidebar ul li {
+    padding: 8px 12px;
+  }
+
+  .sidebar-title {
+    font-size: 1.2rem;
+  }
+
+  .header {
+    font-size: 18px;
+    padding: 5px 10px;
+  }
+
+  .content {
+    padding: 12px;
+    margin-left: 0;
+  }
+
+  .hamburger {
+    font-size: 24px;
+  }
 }

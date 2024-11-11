@@ -1,42 +1,15 @@
 /* General tickets container styling */
 .tickets-container {
-  padding: 20px;
-  background-color: #f7f8fc; /* Light background */
-  border-radius: 12px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-direction: column; /* Stack children vertically */
-  gap: 20px; /* Space between sections */
-  font-family: 'Roboto', sans-serif; /* Clean font */
-  animation: fadeIn 0.5s ease-in-out; /* Fade-in effect */
-}
-.wrap-text {
-  white-space: normal;
-  max-width: 200px; /* adjust the width as needed */
-  overflow-wrap: break-word;
-}
-.top-section{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align items to the left */
-    gap: 10px; /* Adjust this to add spacing */
-  }
-
-
-  .total-tickets .ticket-icon {
-    font-size: 2em;
-    color: #007bff;
-    animation: spin 10s linear infinite;
-  }
-
-/* Keyframe animation for fading in */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  flex-direction: column;
+  gap: 24px;
+  font-family: "Roboto", sans-serif;
+  animation: fadeIn 0.5s ease-in-out;
+  border: 1px solid #e0e0e0;
 }
 
 /* Header area styling */
@@ -49,9 +22,20 @@
 
 .header-text {
   color: #007bff;
-  font-size: 2.2em; /* Larger title */
-  font-weight: bold;
-  animation: slideIn 0.5s ease-in; /* Slide-in effect */
+  font-size: 2.2em;
+  font-weight: 600;
+  animation: slideIn 0.5s ease-in;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Keyframes for animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideIn {
@@ -65,74 +49,52 @@
   }
 }
 
-/* Button for adding a ticket // New ticket and total tickets container */
-.new-ticket-total-container {
-  display: flex;
-  justify-content: flex-start; /* Align both items to the left */
-  align-items: center;
-  gap: 20px; /* Space between the button and the total tickets */
-  margin-bottom: 20px; /* Space below the section */
-}
-
+/* Button styling */
 .new-ticket {
   background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
+  color: #ffffff;
+  padding: 12px 18px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   font-size: 1em;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
 }
 
 .new-ticket:hover {
   background-color: #0056b3;
-  transform: scale(1.05);
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 91, 179, 0.3);
 }
 
+/* Total tickets styling */
 .total-tickets {
-  font-size: 1.5em;
-  font-weight: bold;
+  font-size: 1.4em;
+  font-weight: 600;
   color: #007bff;
   display: flex;
   align-items: center;
-  gap: 10px; /* Space between icon and text */
+  gap: 10px;
 }
 
-
-/* Keyframes for fade-in and scaling effect */
-@keyframes fadeInTotal {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes scaleUp {
-  0% {
-    transform: scale(0.9);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* Color change for high ticket numbers */
 .total-tickets.high {
-  color: #dc3545; /* Red for high ticket count */
+  color: #dc3545;
 }
-
 .total-tickets.medium {
-  color: #ffc107; /* Yellow for medium ticket count */
+  color: #ffc107;
 }
-
 .total-tickets.low {
-  color: #28a745; /* Green for low ticket count */
+  color: #28a745;
 }
 
-/* 3D spin keyframes */
+.total-tickets .ticket-icon {
+  font-size: 2em;
+  animation: spin 10s linear infinite;
+  color: inherit;
+}
+
 @keyframes spin {
   0% {
     transform: rotateY(0deg);
@@ -145,170 +107,107 @@
   }
 }
 
-/* Color change for high ticket numbers */
-.total-tickets.high {
-  color: #dc3545; /* Red for high ticket count */
+/* Top section layout */
+.top-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.total-tickets.medium {
-  color: #ffc107; /* Yellow for medium ticket count */
+/* Container for buttons and total tickets */
+.new-ticket-total-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
-.total-tickets.low {
-  color: #28a745; /* Green for low ticket count */
-}
-
-/* Add a subtle pulsing animation */
-@keyframes pulseTotal {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.total-tickets.pulse {
-  animation: pulseTotal 1s infinite;
-}
-
-/* Add a subtle pulsing animation */
-@keyframes pulseTotal {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.total-tickets.pulse {
-  animation: pulseTotal 1s infinite;
-}
-
-
-/* Search and filter section styling */
+/* Filters and search bar */
 .search-filter-section {
   display: flex;
-  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 20px;
 }
 
-.search-bar input {
-  width: 300px;
-  padding: 10px;
-  font-size: 1em;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.search-bar input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
-  animation: pulse 0.5s; /* Pulsing effect on focus */
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.03);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
+.search-bar input,
 .filters select {
+  width: 100%;
+  max-width: 250px;
   padding: 10px;
-  font-size: 1em;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: border-color 0.3s, box-shadow 0.3s;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
 }
 
-/* Add transition effect for select on focus */
-.filters select {
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
+.search-bar input:focus,
 .filters select:focus {
   border-color: #007bff;
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+  outline: none;
 }
 
 /* Tickets table styling */
 .tickets-table-container {
-  margin-top: 20px;
-  overflow-x: auto; /* Ensures the table is scrollable on small screens */
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  animation: fadeIn 0.5s ease-in-out; /* Fade-in effect */
+  overflow-x: auto;
+  margin-top: 10px;
 }
 
 .tickets-table {
   width: 100%;
   border-collapse: collapse;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.tickets-table th, .tickets-table td {
-  padding: 15px;
+.tickets-table th,
+.tickets-table td {
+  padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
-  transition: background-color 0.3s, transform 0.2s; /* Added transform */
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.3s ease;
 }
 
 .tickets-table th {
-  background-color: #f7f7f7;
-  color: #333;
+  background-color: #007bff;
+  color: #ffffff;
   font-weight: 600;
+  font-size: 0.95em;
+  /* position: sticky; */
+  top: 0;
+  z-index: 1;
 }
 
-.tickets-table tr {
-  transition: transform 0.2s; /* Added transition for rows */
+.tickets-table tr:nth-child(even) {
+  background-color: #f4f4f4;
 }
 
 .tickets-table tr:hover {
-  background-color: #eef5ff;
-  transform: translateY(-2px); /* Slight lift on hover */
-  cursor: pointer;
+  background-color: #f1f9ff;
 }
 
 /* Pagination styling */
 .pagination {
   display: flex;
   justify-content: center;
-  padding: 20px 0;
+  gap: 8px;
+  margin-top: 15px;
 }
 
 .pagination button {
   background-color: #007bff;
   color: white;
-  padding: 10px 15px;
+  padding: 8px 12px;
   border: none;
-  margin: 5px;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s; /* Added transform */
+  transition: background-color 0.3s ease;
 }
 
 .pagination button:hover {
   background-color: #0056b3;
-  transform: scale(1.1); /* Slightly enlarge on hover */
 }
 
 .pagination .active {
@@ -316,19 +215,64 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 992px) {
-  .search-filter-section {
-    flex-direction: column;
-    align-items: flex-start;
+@media (max-width: 768px) {
+  .tickets-container {
+    padding: 16px;
   }
 
-  .search-bar input {
+  .new-ticket-total-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .new-ticket {
     width: 100%;
+    text-align: center;
+  }
+
+  .total-tickets {
+    width: 100%;
+    text-align: center;
+  }
+
+  .search-filter-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tickets-table th,
+  .tickets-table td {
+    font-size: 0.85em;
+    padding: 8px;
   }
 }
 
-@media (max-width: 768px) {
-  .tickets-table th, .tickets-table td {
+@media (max-width: 480px) {
+  .new-ticket-total-container {
+    gap: 3px; /* Reduced gap between elements */
+    margin-bottom: 10px; /* Optional: Reduce bottom margin */
+  }
+
+  .search-filter-section {
+    gap: 5px; /* Reduced gap between search and filter elements */
+  }
+
+  .header-text {
+    font-size: 1.5em;
+  }
+
+  .tickets-table th,
+  .tickets-table td {
+    padding: 6px;
+    font-size: 0.8em;
+  }
+
+  .new-ticket {
     padding: 10px;
+    font-size: 0.9em;
+  }
+
+  .total-tickets {
+    font-size: 1em;
   }
 }

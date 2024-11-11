@@ -5,14 +5,14 @@ import { getAuth } from "firebase/auth"; // Import getAuth
 import { getFirestore } from 'firebase/firestore'; 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB43Ee1ernaGx9Baer5VzKAYRsC5rjr3Ow",
-  authDomain: "ticket-raiser-a3891.firebaseapp.com",
-  databaseURL: "https://ticket-raiser-a3891-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "ticket-raiser-a3891",
-  storageBucket: "ticket-raiser-a3891.appspot.com",
-  messagingSenderId: "8867769997",
-  appId: "1:8867769997:web:a0535292f96dd2830dfcc4",
-  measurementId: "G-FQ4401W9Q2"
+  apiKey: "AIzaSyCcttmuqfzXs9N4OV0XbLFW8SKovevhexI",
+  authDomain: "trt-new-f11b3.firebaseapp.com",
+  databaseURL: "https://trt-new-f11b3-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "trt-new-f11b3",
+  storageBucket: "trt-new-f11b3.appspot.com",
+  messagingSenderId: "382314625036",
+  appId: "1:382314625036:web:49d653cd1849a758a71629",
+  measurementId: "G-1Z5WSMYJ7T"
 };
 
 // Initialize Firebase

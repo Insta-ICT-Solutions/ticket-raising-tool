@@ -1,6 +1,5 @@
 /* Overall container styles */
 .tickets-container {
-  padding: 25px;
   font-family: 'Arial', sans-serif;
   background-color: #f4f4f4;
   border-radius: 10px;
@@ -15,7 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
 .header-text {
@@ -73,6 +72,7 @@
 /* Filters styles */
 .filters {
   display: flex;
+  gap: 10px; /* Add gap between filter buttons */
 }
 
 .filters select {
@@ -81,6 +81,7 @@
   border-radius: 5px;
   margin-left: 10px;
   transition: border-color 0.3s ease;
+  width: 100%; /* Full width for select */
 }
 
 .filters select:focus {
@@ -204,8 +205,10 @@
   }
 
   .search-filter-section {
-    flex-direction: column; /* Stack search and filter sections */
-    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
+    justify-content: space-between;
+    margin-bottom: 20px;
   }
 
   .search-bar {
@@ -243,5 +246,14 @@
 
   .total-tickets {
     font-size: 18px; /* Smaller font for ticket count */
+  }
+
+  .filters {
+    display: flex;
+    gap: 10px; /* Add gap between each filter */
+  }
+
+  .filters select {
+    width: 100%; /* Make filter selects full width */
   }
 }
