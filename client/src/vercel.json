@@ -11,5 +11,23 @@
             "src": "/(.*)",
             "dest": "/"
         }
+    ]{
+    "version": 2,
+    "builds": [
+        {
+            "src": "./App.js",
+            "use": "@vercel/node",
+            "config": {
+                "installCommand": "npm install --legacy-peer-deps"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/"
+        }
     ]
+}
+
 }
