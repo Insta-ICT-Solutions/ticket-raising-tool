@@ -106,7 +106,7 @@ function NewTicket({ role }) {
         formData.append("attachment", attachment);
         formData.append("description", description);
 
-        fetch("http://localhost:1760/admin/create", {
+        fetch("http://15.206.81.1:1760/admin/create", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${idToken}`,

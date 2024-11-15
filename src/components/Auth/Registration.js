@@ -160,7 +160,7 @@ const RegistrationForm = () => {
           Organization: formData.Organization === 'Others' ? formData.Other_Organization : formData.Organization,
         };
   
-        const response = await axios.post('http://localhost:1760/auth/register', dataToSend);
+        const response = await axios.post('http://15.206.81.1:1760/auth/register', dataToSend);
         setSuccessMessage(response.data.message);
         setErrorMessage('');
         

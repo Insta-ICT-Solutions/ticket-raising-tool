@@ -33,7 +33,7 @@ function Tickets() {
     const fetchTickets = async () => {
       try {
         if (role === 'SuperAdmin') {
-          const response = await fetch('http://localhost:1760/allticketsbyrole', {
+          const response = await fetch('http://15.206.81.1:1760/allticketsbyrole', {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',

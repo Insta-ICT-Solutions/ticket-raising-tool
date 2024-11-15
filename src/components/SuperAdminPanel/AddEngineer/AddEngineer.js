@@ -89,7 +89,7 @@ function AddEngineer() {
       console.log("Payload being sent:", payload); // Log the payload
 
       try {
-        const response = await fetch('http://localhost:1760/update-role', {
+        const response = await fetch('http://15.206.81.1:1760/update-role', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
