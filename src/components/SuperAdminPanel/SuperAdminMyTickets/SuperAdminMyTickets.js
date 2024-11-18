@@ -297,9 +297,10 @@ console.log("User Id:-",userId);
 
         <div className="filters">
  <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-            <option value="">All Status</option>
-            <option value="Open">Open</option>
-            <option value="Pending">Pending</option>
+ <option value="">All Status</option>
+            <option value="Raised">Raised</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
             <option value="Closed">Closed</option>
           </select>
 
