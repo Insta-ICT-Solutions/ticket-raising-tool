@@ -686,8 +686,8 @@ const RegistrationForm = () => {
               </Grid>
       
               <Grid item xs={6}>
-  <FormControl variant="outlined" fullWidth margin="normal">
-    <InputLabel>Organization</InputLabel>
+            <FormControl variant="outlined" fullWidth margin="normal">
+              <InputLabel>Organization</InputLabel>
     <Select
       label="Organization"
       name="Organization"

@@ -1,77 +1,122 @@
 .root {
-    height: 170vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f0f4f8;
-    padding-right: 150px;
-  }
-  
+  height: 130vh; /* Adjusted height for a centered layout */
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  background-color: #f0f4f8; /* Maintains existing background color */
+  margin: 0; /* Remove any overflow */
+  padding: 0 20px; /* Ensure padding on small devices */
+}
+
+.formContainer {
+  background-color: #ffffff;
+  padding: 30px; /* Increased padding for better spacing */
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 600px; /* Adjusted max-width for better appearance */
+  width: 150%; /* Makes the form responsive */
+  height: fit-content;
+  box-sizing: border-box; /* Prevents overflow issues */
+  margin: 0 auto; /* Center the form horizontally */
+}
+
+.title {
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+  color: #333333;
+}
+
+.inputField {
+  margin-bottom: 15px;
+}
+
+.submitButton {
+  margin-top: 20px;
+  background-color: #1976d2;
+  width: 100%;
+}
+
+.submitButton:hover {
+  background-color: #1565c0;
+}
+
+.link {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* Remove Validation Text */
+.MuiFormHelperText-root {
+  display: none; /* Hide the validation error text */
+}
+
+/* Media Queries for Responsiveness */
+
+/* Tablets and larger phones (600px or below) */
+@media (max-width: 600px) {
   .formContainer {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    max-width: 600px; /* Increase the max-width to 600px */
-    width: 150%; /* Change to 100% for better responsiveness */
-    height:fit-content;
+    padding: 20px; /* Reduced padding for mobile view */
+    margin: 0 10px; /* Ensures proper spacing */
+    max-width: 90%; /* Take up more space on small screens */
   }
-  
+
   .title {
-    font-size: 28px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: 600;
-    color: #333333;
+    font-size: 24px; /* Slightly smaller title */
   }
-  
+
   .inputField {
-    margin-bottom: 15px;
+    margin-bottom: 12px; /* Reduce spacing between fields */
   }
-  
+
   .submitButton {
-    margin-top: 20px;
-    background-color: #1976d2;
+    margin-top: 15px; /* Reduced margin on mobile */
   }
-  
-  .submitButton:hover {
-    background-color: #1565c0;
+}
+
+/* Phones with smaller screens (480px or below) */
+@media (max-width: 480px) {
+  .formContainer {
+    padding: 15px; /* Compact padding */
+    margin: 0 10px;
   }
-  
-  .link {
-    display: block;
-    text-align: center;
-    margin-top: 15px;
-    color: #1976d2;
-    text-decoration: none;
+
+  .title {
+    font-size: 20px; /* Smaller title font */
   }
-  
-  .link:hover {
-    text-decoration: underline;
+
+  .inputField {
+    margin-bottom: 10px; /* Reduce spacing between fields */
   }
-  
-  /* Styling for Error Messages */
-  .MuiFormHelperText-root {
-    font-size: 12px;
-    color: #f44336;
+
+  .submitButton {
+    margin-top: 10px; /* Compact button spacing */
   }
-  
-  /* Media Queries for Responsiveness */
-  @media (max-width: 600px) {
-    .formContainer {
-      padding: 20px; /* Reduce padding for mobile */
-    }
-  
-    .title {
-      font-size: 24px; /* Slightly smaller title on mobile */
-    }
-  
-    .inputField {
-      margin-bottom: 10px; /* Reduce spacing between fields */
-    }
-  
-    .submitButton {
-      margin-top: 15px; /* Reduce margin on mobile */
-    }
+}
+
+/* Very small screens (320px or below) */
+@media (max-width: 320px) {
+  .formContainer {
+    padding: 10px; /* More compact padding */
   }
-  
+
+  .title {
+    font-size: 18px; /* Adjust title size for smaller screens */
+  }
+
+  .inputField {
+    margin-bottom: 8px; /* Minimized spacing between fields */
+  }
+
+  .submitButton {
+    margin-top: 8px; /* Compact button spacing */
+  }
+}
