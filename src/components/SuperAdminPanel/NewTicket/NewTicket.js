@@ -654,7 +654,23 @@ function NewTicket({ role }) {
   }, [debouncedEmployee_ID, db, onBehalfOf]);
 
   const handleAttachmentChange = (e) => {
-    setAttachment(e.target.files[0]);
+    const file = e.target.files[0]; // Get the selected file
+    const maxSizeInMB = 5; // Maximum file size in MB
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // Convert MB to bytes
+
+    if (file) {
+      if (file.size > maxSizeInBytes) {
+        Swal.fire({
+          title: 'Error!',
+          text: `File size exceeds ${maxSizeInMB} MB. Please select a smaller file.`,
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
+        e.target.value = ''; // Clear the input
+      } else {
+        setAttachment(file); // Store the file in state
+      }
+    }
   };
 
   
@@ -994,12 +1010,13 @@ function NewTicket({ role }) {
 
         {/* Attachment */}
         <div>
-          <label>Attachment (Optional): </label>
+          <label>Attachment : </label>
           <input
             type="file"
             onChange={handleAttachmentChange}
             accept=".pdf, .doc, .docx, .xls, .xlsx, image/*"
           />
+          
         </div>
 
         {/* Description */}

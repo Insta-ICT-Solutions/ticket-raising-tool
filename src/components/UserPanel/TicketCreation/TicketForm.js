@@ -227,8 +227,25 @@ function TicketForm() {
   };
 
   const handleAttachmentChange = (e) => {
-    setAttachment(e.target.files[0]);
+    const file = e.target.files[0]; // Get the selected file
+    const maxSizeInMB = 5; // Maximum file size in MB
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // Convert MB to bytes
+
+    if (file) {
+      if (file.size > maxSizeInBytes) {
+        Swal.fire({
+          title: 'Error!',
+          text: `File size exceeds ${maxSizeInMB} MB. Please select a smaller file.`,
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
+        e.target.value = ''; // Clear the input
+      } else {
+        setAttachment(file); // Store the file in state
+      }
+    }
   };
+
 
   const generateTicketID = async () => {
     const currentYear = new Date().getFullYear().toString().slice(-2);
@@ -261,7 +278,7 @@ function TicketForm() {
     e.preventDefault();
 
     const phoneRegex = /^[0-9]{10}$/;
-    if (!subject || !deviceType || !issueType || !phoneRegex.test(phoneNumber) || !attachment) {
+    if (!subject || !deviceType || !issueType || !phoneRegex.test(phoneNumber) ) {
       setFormErrors('Please fill all mandatory fields and provide a valid 10-digit phone number.');
       return;
     }
@@ -376,7 +393,7 @@ function TicketForm() {
         </div>
 
         <div>
-          <label>Attachment (*): </label>
+          <label>Attachment: </label>
           <input type="file" onChange={handleAttachmentChange} required />
         </div>
 

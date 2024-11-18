@@ -542,13 +542,70 @@ const RegistrationForm = () => {
     });
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (validate()) {
+  //     try {
+  //       // Register user with Firebase Authentication
+  //       const userCredential = await createUserWithEmailAndPassword(auth, formData.Email, formData.password);
+
+  //       // Add user details to Firestore
+  //       const user = userCredential.user;
+  //       const userData = {
+  //         First_Name: formData.First_Name,
+  //         Last_Name: formData.Last_Name,
+  //         Email: formData.Email,
+  //         password: formData.password,
+  //         Mobile_Number: formData.Mobile_Number,
+  //         Organization: formData.Organization === 'Others' ? formData.Other_Organization : formData.Organization,
+  //         Circle: formData.Circle,
+  //         Employee_ID: formData.Employee_ID,
+  //         uid: user.uid,
+  //         role:'User',
+         
+  //       };
+
+  //       await setDoc(doc(db, 'users', user.uid), userData);
+
+  //       // Show success message
+  //       Swal.fire({
+  //         title: 'Success!',
+  //         text: 'User registered successfully!',
+  //         icon: 'success',
+  //         confirmButtonText: 'OK',
+  //       }).then(() => {
+  //         window.location.href = '/'; // Redirect to login page
+  //       });
+
+  //       // Reset form
+  //       setFormData({
+  //         First_Name: '',
+  //         Last_Name: '',
+  //         Email: '',
+  //         password: '',
+  //         confirmPassword: '',
+  //         Mobile_Number: '',
+  //         Organization: '',
+  //         Circle: '',
+  //         Employee_ID: '',
+  //         Other_Organization: '',
+  //       });
+  //       setSuccessMessage('User registered successfully!');
+  //       setErrorMessage('');
+  //     } catch (error) {
+  //       setErrorMessage(error.message || 'Something went wrong');
+  //       setSuccessMessage('');
+  //     }
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
       try {
         // Register user with Firebase Authentication
         const userCredential = await createUserWithEmailAndPassword(auth, formData.Email, formData.password);
-
+  
         // Add user details to Firestore
         const user = userCredential.user;
         const userData = {
@@ -561,22 +618,21 @@ const RegistrationForm = () => {
           Circle: formData.Circle,
           Employee_ID: formData.Employee_ID,
           uid: user.uid,
-          role:'User',
-         
+          role: 'User ',
         };
-
+  
         await setDoc(doc(db, 'users', user.uid), userData);
-
+  
         // Show success message
         Swal.fire({
           title: 'Success!',
-          text: 'User registered successfully!',
+          text: 'User  registered successfully!',
           icon: 'success',
           confirmButtonText: 'OK',
         }).then(() => {
           window.location.href = '/'; // Redirect to login page
         });
-
+  
         // Reset form
         setFormData({
           First_Name: '',
@@ -590,11 +646,21 @@ const RegistrationForm = () => {
           Employee_ID: '',
           Other_Organization: '',
         });
-        setSuccessMessage('User registered successfully!');
+        setSuccessMessage('User  registered successfully!');
         setErrorMessage('');
       } catch (error) {
-        setErrorMessage(error.message || 'Something went wrong');
-        setSuccessMessage('');
+        // Handle specific Firebase errors
+        if (error.code === 'auth/email-already-in-use') {
+          Swal.fire({
+            title: 'Error!',
+            text: 'Email already exists. Please use a different email.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+          });
+        } else {
+          setErrorMessage(error.message || 'Something went wrong');
+          setSuccessMessage('');
+        }
       }
     }
   };
@@ -727,7 +793,7 @@ const RegistrationForm = () => {
             />
 
             <FormControl variant="outlined" fullWidth margin="normal" className="inputField">
-              <InputLabel>IGR Maharashtra </InputLabel>
+              <InputLabel>IGR </InputLabel>
               <Select
                 label="Circle"
                 name="Circle"
