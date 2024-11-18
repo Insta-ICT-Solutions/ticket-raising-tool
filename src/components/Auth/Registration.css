@@ -1,0 +1,77 @@
+.root {
+    height: 170vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f4f8;
+    padding-right: 150px;
+  }
+  
+  .formContainer {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 600px; /* Increase the max-width to 600px */
+    width: 150%; /* Change to 100% for better responsiveness */
+    height:fit-content;
+  }
+  
+  .title {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+    color: #333333;
+  }
+  
+  .inputField {
+    margin-bottom: 15px;
+  }
+  
+  .submitButton {
+    margin-top: 20px;
+    background-color: #1976d2;
+  }
+  
+  .submitButton:hover {
+    background-color: #1565c0;
+  }
+  
+  .link {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #1976d2;
+    text-decoration: none;
+  }
+  
+  .link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Styling for Error Messages */
+  .MuiFormHelperText-root {
+    font-size: 12px;
+    color: #f44336;
+  }
+  
+  /* Media Queries for Responsiveness */
+  @media (max-width: 600px) {
+    .formContainer {
+      padding: 20px; /* Reduce padding for mobile */
+    }
+  
+    .title {
+      font-size: 24px; /* Slightly smaller title on mobile */
+    }
+  
+    .inputField {
+      margin-bottom: 10px; /* Reduce spacing between fields */
+    }
+  
+    .submitButton {
+      margin-top: 15px; /* Reduce margin on mobile */
+    }
+  }
+  
