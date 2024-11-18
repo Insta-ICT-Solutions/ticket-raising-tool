@@ -468,8 +468,8 @@ import {
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
-import BusinessIcon from '@mui/icons-material/Business';
 import { FaUserCircle } from 'react-icons/fa';
+import { Visibility, VisibilityOff } from '@mui/icons-material'; // Import eye icons
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import { auth, db } from '../../firebase/firebaseconfig'; // Import Firebase configuration
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -493,6 +493,8 @@ const RegistrationForm = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for confirm password visibility
 
   const passwordCriteria = [
     { label: "At least 6 characters", test: /.{6,}/ },
@@ -541,63 +543,6 @@ const RegistrationForm = () => {
       [name]: value,
     });
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (validate()) {
-  //     try {
-  //       // Register user with Firebase Authentication
-  //       const userCredential = await createUserWithEmailAndPassword(auth, formData.Email, formData.password);
-
-  //       // Add user details to Firestore
-  //       const user = userCredential.user;
-  //       const userData = {
-  //         First_Name: formData.First_Name,
-  //         Last_Name: formData.Last_Name,
-  //         Email: formData.Email,
-  //         password: formData.password,
-  //         Mobile_Number: formData.Mobile_Number,
-  //         Organization: formData.Organization === 'Others' ? formData.Other_Organization : formData.Organization,
-  //         Circle: formData.Circle,
-  //         Employee_ID: formData.Employee_ID,
-  //         uid: user.uid,
-  //         role:'User',
-         
-  //       };
-
-  //       await setDoc(doc(db, 'users', user.uid), userData);
-
-  //       // Show success message
-  //       Swal.fire({
-  //         title: 'Success!',
-  //         text: 'User registered successfully!',
-  //         icon: 'success',
-  //         confirmButtonText: 'OK',
-  //       }).then(() => {
-  //         window.location.href = '/'; // Redirect to login page
-  //       });
-
-  //       // Reset form
-  //       setFormData({
-  //         First_Name: '',
-  //         Last_Name: '',
-  //         Email: '',
-  //         password: '',
-  //         confirmPassword: '',
-  //         Mobile_Number: '',
-  //         Organization: '',
-  //         Circle: '',
-  //         Employee_ID: '',
-  //         Other_Organization: '',
-  //       });
-  //       setSuccessMessage('User registered successfully!');
-  //       setErrorMessage('');
-  //     } catch (error) {
-  //       setErrorMessage(error.message || 'Something went wrong');
-  //       setSuccessMessage('');
-  //     }
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -750,34 +695,34 @@ const RegistrationForm = () => {
                   }}
                 />
               </Grid>
-      
               <Grid item xs={6}>
-            <FormControl variant="outlined" fullWidth margin="normal">
-              <InputLabel>Organization</InputLabel>
-    <Select
-      label="Organization"
-      name="Organization"
-      value={formData.Organization}
-      onChange={handleChange}
-    >
-      <MenuItem value="Insta IGR">Insta IGR</MenuItem>
-      <MenuItem value="Others">Others</MenuItem>
-    </Select>
-  </FormControl>
-  {formData.Organization === 'Others' && (
-    <TextField
-      variant="outlined"
-      margin="normal"
-      fullWidth
-      label="Type your Organization"
-      name="Other_Organization"
-      value={formData.Other_Organization}
-      onChange={handleChange}
-      error={!!errors.Other_Organization}
-      helperText={errors.Other_Organization}
-    />
-  )}
-</Grid>
+                <FormControl variant="outlined" fullWidth margin="normal">
+                  <InputLabel>Organization</InputLabel>
+                  <Select
+                    label="Organization"
+                    name="Organization"
+                    value={formData.Organization}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="Insta ICT">Insta ICT</MenuItem>
+                    <MenuItem value="Insta IGR">Insta IGR</MenuItem>
+                    <MenuItem value="Others">Others</MenuItem>
+                  </Select>
+                </FormControl>
+                {formData.Organization === 'Others' && (
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    label="Type your Organization"
+                    name="Other_Organization"
+                    value={formData.Other_Organization}
+                    onChange={handleChange}
+                    error={!!errors.Other_Organization}
+                    helperText={errors.Other_Organization}
+                  />
+                )}
+              </Grid>
             </Grid>
 
             <TextField
@@ -793,7 +738,7 @@ const RegistrationForm = () => {
             />
 
             <FormControl variant="outlined" fullWidth margin="normal" className="inputField">
-              <InputLabel>IGR </InputLabel>
+              <InputLabel>Circle/Project Location</InputLabel>
               <Select
                 label="Circle"
                 name="Circle"
@@ -827,7 +772,7 @@ const RegistrationForm = () => {
               fullWidth
               label="Password"
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"} // Toggle between text and password
               autoComplete="current-password"
               value={formData.password}
               onChange={handleChange}
@@ -839,6 +784,13 @@ const RegistrationForm = () => {
                     <LockOutlinedIcon />
                   </InputAdornment>
                 ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Button onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </Button>
+                  </InputAdornment>
+                ),
               }}
             />
             <TextField
@@ -847,7 +799,7 @@ const RegistrationForm = () => {
               fullWidth
               label="Confirm Password"
               name="confirmPassword"
-              type="password"
+              type={showConfirmPassword ? "text" : "password"} // Toggle between text and password
               value={formData.confirmPassword}
               onChange={handleChange}
               error={!!errors.confirmPassword}
@@ -856,6 +808,13 @@ const RegistrationForm = () => {
                 startAdornment: (
                   <InputAdornment position="start">
                     <LockOutlinedIcon />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Button onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    </Button>
                   </InputAdornment>
                 ),
               }}
@@ -888,6 +847,4 @@ const RegistrationForm = () => {
 };
 
 export default RegistrationForm;
-
-
-
+  

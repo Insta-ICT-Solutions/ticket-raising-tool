@@ -192,7 +192,7 @@ const TicketsTable = () => {
           fetchedTickets.push({ id: doc.id, ...doc.data() });
         });
         fetchedTickets.sort((a, b) => {
-          return new Date(b.createdAt) - new Date(a.createdAt); // Assuming createdAt is a timestamp
+          return new Date(a.createdAt) - new Date(b.createdAt); // Assuming createdAt is a timestamp
         });
 
         setTickets(fetchedTickets);
@@ -251,6 +251,7 @@ const TicketsTable = () => {
           <div className="filters-trt">
             <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
               <option value="">All Status</option>
+              <option value="Raised">Raised</option>
               <option value="In Progress">In Progress</option>
               <option value="Resolved">Resolved</option>
               <option value="Closed">Closed</option>

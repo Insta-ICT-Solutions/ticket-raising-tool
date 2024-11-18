@@ -8,6 +8,12 @@
   flex-direction: column; /* Stack children vertically */
   perspective: 1000px; /* Enables 3D effects */
 }
+.tickets-table-trt tbody tr {
+  cursor: pointer; /* Change cursor to pointer */
+}
+.tickets-table-trt tbody tr:hover {
+  background-color: #f5f5f5; /* Optional: change background color on hover */
+}
 
 /* Button for adding a ticket */
 .add-ticket-button-trt {
@@ -313,6 +319,12 @@ body {
     box-sizing: border-box; /* Include padding in width calculation */
     overflow: hidden; /* Prevent overflow of content */
   }
+  .tickets-table-trt tbody tr {
+    cursor: pointer; /* Change cursor to pointer */
+  }
+  .tickets-table-trt tbody tr:hover {
+    background-color: #f5f5f5; /* Optional: change background color on hover */
+  }
 
   .total-tickets-trt h3 {
     font-size: 1em; /* Title font size */
@@ -366,6 +378,12 @@ body {
   .add-ticket-button-trt button {
     padding: 4px 8px;
     font-size: 0.7em; /* Smaller font size */
+  }
+  .tickets-table-trt tbody tr {
+    cursor: pointer; /* Change cursor to pointer */
+  }
+  .tickets-table-trt tbody tr:hover {
+    background-color: #f5f5f5; /* Optional: change background color on hover */
   }
 
   /* Minimize search filter section */
