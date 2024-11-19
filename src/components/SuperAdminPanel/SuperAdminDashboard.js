@@ -214,7 +214,8 @@ function AdminTickets() {
   const isSpecialRoute =
     location.pathname.includes("/SuperAdminDashboard/new-ticket") ||
     location.pathname.includes("/SuperAdminDashboard/viewticket") ||
-    location.pathname.includes("/SuperAdminDashboard/ticket-detail");
+    location.pathname.includes("/SuperAdminDashboard/ticket-detail")||
+    location.pathname.includes("/user-dashboard/change-password") ;
     // location.pathname.includes("/admin-tickets/add-engineer");
 
   useEffect(() => {

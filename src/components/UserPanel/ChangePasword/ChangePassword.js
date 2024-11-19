@@ -218,7 +218,7 @@ const ChangePassword = () => {
               required
             />
             <IconButton onClick={() => setShowCurrentPassword(!showCurrentPassword)}>
-              {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
+              {showCurrentPassword ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           </div>
         </div>
@@ -234,7 +234,7 @@ const ChangePassword = () => {
               required
             />
             <IconButton onClick={() => setShowNewPassword(!showNewPassword)}>
-              {showNewPassword ? <VisibilityOff /> : <Visibility />}
+              {showNewPassword ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           </div>
         </div>
@@ -250,7 +250,7 @@ const ChangePassword = () => {
               required
             />
             <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-              {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+              {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           </div>
         </div>

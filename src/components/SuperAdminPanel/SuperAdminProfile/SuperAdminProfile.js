@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { getAuth, onAuthStateChanged } from "firebase/auth"; // Firebase Auth
 import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore"; // Firebase Firestore
+import { MenuItem, Select } from "@mui/material"; // Import Material-UI components
 import "./SuperAdminProfile.css";
 
+// PopupDialog component
 const PopupDialog = ({ message, onClose }) => {
   return (
     <div className="popup-dialog">
@@ -23,6 +25,7 @@ const ProfileForm = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState(""); // State for email error
   const [loading, setLoading] = useState(true); // To track loading state
   const [formData, setFormData] = useState({
     First_Name: "",
@@ -36,28 +39,48 @@ const ProfileForm = () => {
   const [isEditable, setIsEditable] = useState({
     Email: false,
     Mobile_Number: false,
-    Organization: false, // Add editable state for Organization
+    Circle: false, // Circle is editable
+    Organization: false, // Organization is not editable
   });
 
   const auth = getAuth();
   const db = getFirestore();
+
+  // Circle options
+  const circleOptions = [
+    { value: "MP", label: "Madhya Pradesh" },
+    { value: "UPW", label: "UP West" },
+    { value: "UPE", label: "UP East" },
+    { value: "RJ", label: "Rajasthan" },
+    { value: "GUJ", label: "Gujrat" },
+    { value: "MH", label: "Maharashtra" },
+    { value: "BH", label: "Bihar" },
+    { value: "ROB", label: "Rest of Bengal" },
+    { value: "PNB", label: "Punjab" },
+    { value: "KTK", label: "Karnataka" },
+    { value: "MUM", label: "Mumbai" },
+    { value: "CH", label: "Chennai" },
+    { value: "JH", label: "Jharkand" },
+    { value: "KOC", label: "Kolkata" },
+    { value: "HP", label: "Himachal Pradesh" },
+    { value: "AP", label: "Andhra Pradesh" },
+    { value: "ROTN", label: "Rest of Tamil Nadu" },
+    { value: "KE", label: "Kerala" },
+  ];
 
   useEffect(() => {
     const fetchUserData = async () => {
       onAuthStateChanged(auth, async (user) => {
         if (user) {
           const userId = user.uid;
-          console.log("Authenticated User ID:", userId); // Debugging log
           try {
             const userDocRef = doc(db, "users", userId);
             const userDocSnap = await getDoc(userDocRef);
 
             if (userDocSnap.exists()) {
-              console.log("User  data fetched:", userDocSnap.data()); // Debugging log
               setFormData(userDocSnap.data());
               setLoading(false); // Stop loading once data is fetched
             } else {
-              console.log("User  document does not exist.");
               setPopupMessage("User  data not found.");
               setShowPopup(true);
               setLoading(false); // Stop loading even if no data is found
@@ -69,7 +92,6 @@ const ProfileForm = () => {
             setLoading(false); // Stop loading on error
           }
         } else {
-          console.log("No authenticated user found.");
           setPopupMessage("No authenticated user found.");
           setShowPopup(true);
           setLoading(false); // Stop loading if no user is found
@@ -80,17 +102,42 @@ const ProfileForm = () => {
     fetchUserData();
   }, [auth, db]);
 
+  const handleChangePassword = () => {
+    // Check phone number before changing password
+    if (formData.Mobile_Number.length !== 10) {
+      setPopupMessage("Phone number must be exactly 10 digits before changing password.");
+      setShowPopup(true);
+      return;
+    }
+    navigate("/user-dashboard/change-password");
+  };
+
   const handleInputChange = (e) => {
     const { id, value } = e.target;
+
+    // Validate phone number
     if (id === "Mobile_Number") {
       if (/^\d*$/.test(value) && value.length <= 10) {
         setFormData((prevState) => ({
           ...prevState,
           [id]: value,
         }));
-        setPhoneError("");
+        setPhoneError(""); // Clear error if valid
+      } else if (value.length < 10) {
+        setPhoneError("Please enter a 10-digit phone number.");
       } else {
-        setPhoneError("Phone number must be numeric and up to 10 digits.");
+        setPhoneError("Phone number must be numeric and exactly 10 digits.");
+      }
+    } else if (id === "Email") {
+      // Validate email format
+      if (value.includes("@")) {
+        setFormData((prevState) => ({
+          ...prevState,
+          [id]: value,
+        }));
+        setEmailError(""); // Clear error if valid
+      } else {
+        setEmailError("Email must contain '@'.");
       }
     } else {
       setFormData((prevState) => ({
@@ -100,7 +147,18 @@ const ProfileForm = () => {
     }
   };
 
+  const handleCircleChange = (event) => {
+    setFormData((prev) => ({ ...prev, Circle: event.target.value }));
+  };
+
   const handleSaveChanges = async () => {
+    // Check for errors before saving
+    if (phoneError || emailError || formData.Mobile_Number.length !== 10) {
+      setPopupMessage("Please fix the errors before saving.");
+      setShowPopup(true);
+      return;
+    }
+
     try {
       const user = auth.currentUser ;
       if (user) {
@@ -130,10 +188,6 @@ const ProfileForm = () => {
       ...prevState,
       [field]: !prevState[field],
     }));
-  };
-
-  const handleChangePassword = () => {
-    navigate("/user-dashboard/change-password");
   };
 
   const handleClosePopup = () => {
@@ -185,7 +239,7 @@ const ProfileForm = () => {
             disabled
           />
         </div>
-
+  
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="Email">Email Address</label>
@@ -203,6 +257,7 @@ const ProfileForm = () => {
                 onClick={() => toggleEditField("Email")}
               />
             </div>
+            {emailError && <p className="error-message">{emailError}</p>} {/* Display email error */}
           </div>
           <div className="form-group">
             <label htmlFor="Mobile_Number">Phone Number</label>
@@ -220,37 +275,43 @@ const ProfileForm = () => {
                 onClick={() => toggleEditField("Mobile_Number")}
               />
             </div>
-            {phoneError && <p className="error-message">{phoneError}</p>}
+            {phoneError && <p className="error-message">{phoneError}</p>} {/* Display phone error */}
           </div>
         </div>
         <div className="form-group">
           <label htmlFor="Circle">Circle</label>
-          <input
-            type="text"
-            id="Circle"
-            value={formData.Circle}
-            onChange={handleInputChange}
-            placeholder="Circle"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="Organization">Organization</label>
           <div className="input-wrapper">
-            <input
-              type="text"
-              id="Organization"
-              value={formData.Organization}
-              onChange={handleInputChange}
-              placeholder="Current Organization"
-              disabled={!isEditable.Organization} // Make it editable
-            />
+            <Select
+              id="Circle"
+              value={formData.Circle}
+              onChange={handleCircleChange}
+              disabled={!isEditable.Circle}
+              displayEmpty
+            >
+              <MenuItem value="" disabled>Select Circle</MenuItem>
+              {circleOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
             <FaEdit
               className="edit-icon"
-              onClick={() => toggleEditField("Organization")}
+              onClick={() => toggleEditField("Circle")}
             />
           </div>
         </div>
-
+        <div className="form-group">
+          <label htmlFor="Organization">Organization</label>
+          <input
+            type="text"
+            id="Organization"
+            value={formData.Organization}
+            placeholder="Current Organization"
+            disabled
+          />
+        </div>
+  
         <div className="button-container">
           <button
             type="button"
@@ -268,12 +329,10 @@ const ProfileForm = () => {
           </button>
         </div>
       </form>
-
       {showPopup && (
         <PopupDialog message={popupMessage} onClose={handleClosePopup} />
       )}
     </div>
   );
 };
-
-export default ProfileForm;
+  export default ProfileForm;

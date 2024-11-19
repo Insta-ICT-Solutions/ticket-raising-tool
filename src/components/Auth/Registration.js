@@ -738,7 +738,7 @@ const RegistrationForm = () => {
             />
 
             <FormControl variant="outlined" fullWidth margin="normal" className="inputField">
-              <InputLabel>Circle/Project Location</InputLabel>
+              <InputLabel>Circle</InputLabel>
               <Select
                 label="Circle"
                 name="Circle"
@@ -787,7 +787,7 @@ const RegistrationForm = () => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <Button onClick={() => setShowPassword(!showPassword)}>
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
                     </Button>
                   </InputAdornment>
                 ),
@@ -813,7 +813,7 @@ const RegistrationForm = () => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <Button onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                      {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
                     </Button>
                   </InputAdornment>
                 ),
