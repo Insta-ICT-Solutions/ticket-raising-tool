@@ -10,6 +10,14 @@
   overflow: auto;
   animation: fadeIn 0.5s ease-in-out;
 }
+.loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5em;
+  color: #007bff; /* Change color as needed */
+}
 
 @keyframes fadeIn {
   from {
@@ -142,6 +150,14 @@ input[type="file"] + span {
     width: 100%;
     margin-top: 10px;
   }
+  .loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5em;
+    color: #007bff; /* Change color as needed */
+}
 }
 
 @media (max-width: 480px) {

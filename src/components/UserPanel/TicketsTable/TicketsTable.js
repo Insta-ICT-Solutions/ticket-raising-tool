@@ -191,14 +191,19 @@ const TicketsTable = () => {
         querySnapshot.forEach((doc) => {
           fetchedTickets.push({ id: doc.id, ...doc.data() });
         });
+
+        // Sort by `createdAt` field in descending order
         fetchedTickets.sort((a, b) => {
-          return new Date(a.createdAt) - new Date(b.createdAt); // Assuming createdAt is a timestamp
+          const dateA = a.createdAt ? a.createdAt.toDate().getTime() : 0;
+          const dateB = b.createdAt ? b.createdAt.toDate().getTime() : 0;
+          return dateB - dateA; // Descending order
         });
 
         setTickets(fetchedTickets);
         console.log('Fetched Tickets:', fetchedTickets); // Debugging log
       }
     };
+
 
     fetchTickets();
   }, [db, user]);
