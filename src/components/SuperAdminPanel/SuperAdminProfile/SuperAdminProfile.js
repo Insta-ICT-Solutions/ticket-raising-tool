@@ -55,7 +55,6 @@ const ProfileForm = () => {
     { value: "GUJ", label: "Gujrat" },
     { value: "MH", label: "Maharashtra" },
     { value: "pune", label: "Corporate Office Pune" },
-   
     { value: "BH", label: "Bihar" },
     { value: "ROB", label: "Rest of Bengal" },
     { value: "PNB", label: "Punjab" },

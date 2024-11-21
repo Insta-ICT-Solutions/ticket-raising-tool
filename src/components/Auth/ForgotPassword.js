@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom'; 
 import { auth } from "../../firebase/firebaseconfig";
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import './ForgotPassword.css';
@@ -14,6 +15,7 @@ const ForgotPassword = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const db = getFirestore(); // Initialize Firestore
 
   const generateCaptcha = () => {
     const num1 = Math.floor(Math.random() * 10);
@@ -26,17 +28,30 @@ const ForgotPassword = () => {
     generateCaptcha();
   }, []);
 
+  // Function to check if the email exists in Firestore
+  const checkEmailExists = async (email) => {
+    const usersRef = collection(db, 'users'); // Replace 'users' with your collection name
+    const q = query(usersRef, where('Email', '==', email)); // Assuming 'Email' is the field name
+    const querySnapshot = await getDocs(q);
+    return !querySnapshot.empty; // Returns true if email exists
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
     setError('');
 
     if (parseInt(captchaResult) === captchaAnswer) {
-      try {
-        await sendPasswordResetEmail(auth, email);
-        setMessage('Password reset link has been sent to your email.');
-      } catch (err) {
-        setError('Failed to send password reset email. Please check the email ID.');
+      const emailExists = await checkEmailExists(email);
+      if (emailExists) {
+        try {
+          await sendPasswordResetEmail(auth, email);
+          setMessage('Password reset link has been sent to your email.');
+        } catch (err) {
+          setError('Failed to send password reset email. Please check the email ID.');
+        }
+      } else {
+        setError('Email does not exist. Please check your email ID.');
       }
     } else {
       setError('Captcha is incorrect. Please try again.');

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import Navbar from './Navbar/Navbar';
 import Sidebar from './Sidebar/Sidebar';
 import './UserDashboard.css';
@@ -13,6 +13,7 @@ const UserDashboard = () => {
   };
 
   const navigate = useNavigate(); // For navigation
+  const location = useLocation(); // Get the current location
 
   // Function to add a new ticket
   const addNewTicket = (newTicket) => {
@@ -20,10 +21,13 @@ const UserDashboard = () => {
     navigate('/user-dashboard/mytickets'); // Redirect back to the tickets table after adding a new ticket
   };
 
+  // Check if the current path is '/user-dashboard/change-password'
+  const isChangePasswordPage = location.pathname === '/user-dashboard/change-password';
+
   return (
     <div className="user-dashboard-container-trt">
-      {/* Navbar */}
-      <Navbar toggleSidebar={toggleSidebar} />
+      {/* Conditionally render Navbar */}
+      {!isChangePasswordPage && <Navbar toggleSidebar={toggleSidebar} />}
 
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />

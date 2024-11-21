@@ -501,9 +501,8 @@ function TicketForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const phoneRegex = /^[0-9]{10}$/;
-    if (!subject || !deviceType || !issueType || !phoneRegex.test(phoneNumber) ) {
-      setFormErrors('Please fill all mandatory fields and provide a valid 10-digit phone number.');
+    if (!subject || !deviceType || !issueType)  {
+      setFormErrors('Please fill all mandatory fields');
       return;
     }
 
@@ -514,10 +513,10 @@ function TicketForm() {
       const ticketID = await generateTicketID();
       const createdAt = new Date();
       const auth = getAuth();
-      const currentUser = auth.currentUser;
+      const currentUser  = auth.currentUser ;
 
-      if (!currentUser) {
-        setFormErrors('User not authenticated');
+      if (!currentUser ) {
+        setFormErrors('User  not authenticated');
         setLoading(false); // Stop loading
         return;
       }
@@ -525,21 +524,23 @@ function TicketForm() {
       // Format date with leading zeros
       const formattedDate = formatDate(createdAt);
 
-      const storageRef = ref(storage, `ticket_attachments/${currentUser.uid}/${ticketID}/${attachment.name}`);
-      await uploadBytes(storageRef, attachment);
+      let downloadURL = null; // Initialize downloadURL to null
+      if (attachment) {
+        const storageRef = ref(storage, `ticket_attachments/${currentUser .uid}/${ticketID}/${attachment.name}`);
+        await uploadBytes(storageRef, attachment);
 
-      // Step 2: Get the download URL after file upload
-      const downloadURL = await getDownloadURL(storageRef);
+        // Get the download URL after file upload
+        downloadURL = await getDownloadURL(storageRef);
+      }
 
       const ticketData = {
         subject,
         deviceType,
-        createdBy: currentUser.uid,
+        createdBy: currentUser .uid,
         issueType,
         description,
-        attachmentURL: downloadURL,  // Store the download URL instead of the file name
-        phoneNumber,
-        createdAt: Timestamp.fromDate(new Date()),
+        attachmentURL: downloadURL,  // Store the download URL if available
+ createdAt: Timestamp.fromDate(new Date()),
         priority: priority || null,
         time: createdAt.toLocaleTimeString(),
         date: formattedDate,  // Use custom formatted date
@@ -611,19 +612,8 @@ function TicketForm() {
         </div>
 
         <div>
-          <label>Phone Number (*): </label>
-          <input
-            type="text"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            required
-            placeholder="10-digit phone number"
-          />
-        </div>
-
-        <div>
           <label>Attachment: </label>
-          <input type="file" onChange={handleAttachmentChange} required />
+          <input type="file" onChange={handleAttachmentChange} />
         </div>
 
         <div>
