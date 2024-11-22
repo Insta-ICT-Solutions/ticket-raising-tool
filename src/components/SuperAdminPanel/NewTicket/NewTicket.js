@@ -311,6 +311,8 @@ import "./NewTicket.css";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
+import { useLocation } from "react-router-dom"; // Import useLocation
+
 import { 
   getFirestore, 
   collection, 
@@ -321,15 +323,14 @@ import {
   doc, 
   getDoc,
   setDoc, 
-  increment, 
-  orderBy, 
-  limit 
+  increment 
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-function NewTicket({ role }) {  
+function NewTicket() { 
   const navigate = useNavigate();
   const [subject, setSubject] = useState("");
+  const [role, setRole] = useState(''); // Initialize role state
   const [onBehalfOf, setOnBehalfOf] = useState("self");
   const [Employee_ID, setEmployee_ID] = useState("");
   const [debouncedEmployee_ID, setDebouncedEmployee_ID] = useState("");
@@ -339,13 +340,16 @@ function NewTicket({ role }) {
   const [description, setDescription] = useState("");
   const [formErrors, setFormErrors] = useState("");
   const [employeeExists, setEmployeeExists] = useState(false);
-  const [assignedToEmail, setAssignedToEmail] = useState("");
-  const [assignedId, setAssignedId] = useState("");
-  const [assignedName, setAssignedName] = useState("");
   const [loading, setLoading] = useState(false); // Loading state
 
   const db = getFirestore();
   const storage = getStorage();
+
+  // Retrieve role from sessionStorage when the component mounts
+  useEffect(() => {
+    const userRole = sessionStorage.getItem("userRole") || 'Admin'; // Default to 'Admin' if not found
+    setRole(userRole);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -429,7 +433,7 @@ function NewTicket({ role }) {
   
     const generateUniqueTicketId = async (userId) => {
       const prefix = "INSTAA";
- const now = new Date();
+      const now = new Date();
       const year = now.getFullYear().toString().slice(2);
       const month = (now.getMonth() + 1).toString().padStart(2, "0");
       let ticketNumber = 1;
@@ -483,9 +487,6 @@ function NewTicket({ role }) {
         ticketID: ticketId,
         createdAt: Timestamp.fromDate(new Date()),
         createdBy: userId,
-        assignedTo: assignedToEmail,
-        assignedId,
-        assignedName,
         date,
         time,
         status: "Raised",
@@ -557,7 +558,7 @@ function NewTicket({ role }) {
 
         {onBehalfOf === "others" && (
           <div>
-            <label>Enter Employee-ID (Mandatory ): </label>
+ <label>Enter Employee-ID (Mandatory ): </label>
             <input
               type="text"
               value={Employee_ID}

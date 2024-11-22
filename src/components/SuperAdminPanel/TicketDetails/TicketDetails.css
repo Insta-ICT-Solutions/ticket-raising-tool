@@ -9,6 +9,24 @@
   background-color: #f9f9f9;
   border-radius: 10px;
 }
+.message-container {
+  display: flex;
+  flex-direction: column;
+  height: 400px; /* Set a fixed height for the message area */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.message-list {
+  flex-grow: 1; /* Allow the message list to grow and take available space */
+  padding: 10px; /* Add some padding */
+}
+
+.message-input {
+  display: flex;
+  align-items: center; /* Center the input vertically */
+  padding: 10px; /* Add padding around the input area */
+  background-color: #f1f1f1; /* Optional: background color for the input area */
+}
 
 /* Typography */
 .ticket-title {
