@@ -103,7 +103,7 @@ const TicketDetail = () => {
       console.log(ticketId);
       const ticketDoc = doc(
         db,
-        `users/${ticket.createdBy}/TicketDetails/${ticketId}`
+        `TicketList/${ticketId}`
       );
       const listDoc = doc(db, `TicketList/${ticketId}`);
       await setDoc(ticketDoc, { priority: newPriority }, {merge: true});
@@ -122,25 +122,7 @@ const TicketDetail = () => {
     }
   };
 
-  // Separate function to update status in both collections
-  // const updateStatus = async (newStatus) => {
-  //   try {
-  //     const ticketDoc = doc(
-  //       db,
-  //       `users/${ticket.createdBy}/TicketDetails/${ticketId}`
-  //     );
-  //     const listDoc = doc(db, `TicketList/${ticketId}`);
-  //     await updateDoc(ticketDoc, { status: newStatus });
-  //     await updateDoc(listDoc, { status: newStatus });
-  //     SweetAlert.fire("Success", `Status updated to ${newStatus}`, "success");
-  //   } catch (err) {
-  //     SweetAlert.fire("Error", "Could not update status", "error");
-  //   }
-  // };
-
-  // Separate function to update status in both collections
-// Function to format time as HH:MM AM/PM
-// Function to format time as HH:MM AM/PM
+  
 const formatTime = (date) => {
   const options = { hour: '2-digit', minute: '2-digit', hour12: true };
   return new Intl.DateTimeFormat('en-US', options).format(date);
@@ -160,10 +142,10 @@ const updateStatus = async (newStatus) => {
   try {
     const ticketDoc = doc(
       db,
-      `users/${ticket.createdBy}/TicketDetails/${ticketId}`
+      `TicketList/${ticketId}`
     );
     const listDoc = doc(db, `TicketList/${ticketId}`);
-    
+
     const currentTime = new Date(); // Get the current date and time
     const formattedTime = formatTime(currentTime); // Format it to just time (HH:MM AM/PM)
     const formattedDate = formatDate(currentTime); // Format it to just date (DD/MM/YYYY)
@@ -172,31 +154,28 @@ const updateStatus = async (newStatus) => {
       status: newStatus,
       statusUpdatedTime: formattedTime, // Add formatted time for status update
       statusUpdatedDate: formattedDate // Add formatted date for status update
-    });
+    }, { merge: true });
+    
     await updateDoc(listDoc, { 
       status: newStatus,
       statusUpdatedTime: formattedTime, // Add formatted time for status update
       statusUpdatedDate: formattedDate // Add formatted date for status update
-    });
+    }, { merge: true });
     
     SweetAlert.fire("Success", `Status updated to ${newStatus}`, "success");
   } catch (err) {
+    console.error(err);
     SweetAlert.fire("Error", "Could not update status", "error");
   }
 };
-// Update status function
 
-
-// Other component code...
-
-  const handleStatusChange = (event) => {
-    const newStatus = event.target.value;
-    if (newStatus !== status) {
-      setStatus(newStatus);
-      updateStatus(newStatus);
-    }
-  };
-
+const handleStatusChange = (event) => {
+  const newStatus = event.target.value;
+  if (newStatus !== status) {
+    setStatus(newStatus);
+    updateStatus(newStatus);
+  }
+};
   //   // Separate function to update assigned admin in both collections
   const updateAssignedAdmin = async (adminName) => {
     try {
@@ -215,7 +194,7 @@ const updateStatus = async (newStatus) => {
         // Update the assigned admin name and Employee_Id in both collections
         const ticketDoc = doc(
           db,
-          `users/${ticket.createdBy}/TicketDetails/${ticketId}`
+          `TicketList/${ticketId}`
         );
         const listDoc = doc(db, `TicketList/${ticketId}`);
         await updateDoc(ticketDoc, {
