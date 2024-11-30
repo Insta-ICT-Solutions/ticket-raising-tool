@@ -65,7 +65,8 @@
 }
 
 .ticket-title::before {
-  content: "📄"; /* Sticker for the title */
+  /* content: "📄";  */
+  /* Sticker for the title */
   position: absolute;
   left: -40px;
   top: -5px;

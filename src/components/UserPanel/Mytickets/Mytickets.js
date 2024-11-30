@@ -406,6 +406,268 @@
 
 
 
+// import React, { useState, useEffect } from 'react';
+// import { useParams } from 'react-router-dom';
+// import {
+//   getFirestore,
+//   doc,
+//   getDoc,
+//   collection,
+//   addDoc,
+//   query,
+//   orderBy,
+//   onSnapshot,
+//   serverTimestamp,
+//   updateDoc,
+//   arrayUnion,
+// } from 'firebase/firestore';
+// import { getAuth } from 'firebase/auth';
+// import {db} from '../../../firebase/firebaseconfig.js'
+// import {
+//   Container,
+//   Paper,
+//   Typography,
+//   TextField,
+//   Button,
+//   Divider,
+//   Grid,
+//   List,
+//   ListItem,
+//   ListItemText,
+//   Chip,
+// } from '@mui/material';
+// import Sidebar from '../Sidebar/Sidebar.js';
+// import './Mytickets.css';
+// import { Attachment } from '@mui/icons-material';
+// import SweetAlert from 'sweetalert2';
+
+
+// const TicketDetails = () => {
+//   const { ticketId } = useParams();
+//   const [ticket, setTicket] = useState(null);
+//   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [newMessage, setNewMessage] = useState(''); // Input message
+//   const [chatMessages, setChatMessages] = useState([]); // Store chat messages
+//   const [sendersMap, setSendersMap] = useState({}); // Store sender details
+//   const [messages, setMessages] = useState([]);
+  
+//   useEffect(() => {
+//     const fetchTicketDetails = async () => {
+//       const auth = getAuth();
+//       const user = auth.currentUser;
+
+//       if (!user) {
+//         setError('User is not authenticated');
+//         setLoading(false);
+//         return;
+//       }
+
+//       const db = getFirestore();
+//       const docRef = doc(db, `users/${user.uid}/TicketDetails/${ticketId}`);
+
+//       try {
+//         const docSnap = await getDoc(docRef);
+//         if (docSnap.exists()) {
+//           setTicket({ id: docSnap.id, ...docSnap.data() });
+//         } else {
+//           setError('Ticket not found.');
+//         }
+//       } catch (err) {
+//         setError('Error fetching ticket details.');
+//         console.error("Error fetching ticket details:", err);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchTicketDetails();
+//   }, [ticketId]);
+
+//   // Fetch chat messages in real-time from Firestore's ChatSection collection
+//   useEffect(() => {
+//     const auth = getAuth();
+//     const user = auth.currentUser;
+
+//     if (!user) return;
+
+//     const db = getFirestore();
+//     const messagesRef = collection(db, `ChatSection/${ticketId}/messages`);
+//     const q = query(messagesRef, orderBy('timestamp', 'asc'));
+
+//     // Listen for real-time updates
+//     const unsubscribe = onSnapshot(q, async (snapshot) => {
+//       const fetchedMessages = await Promise.all(snapshot.docs.map(async (doc) => {
+//         const messageData = { id: doc.id, ...doc.data() };
+//         // Fetch the sender details
+//         messageData.senderName = await fetchSenderDetails(messageData.senderId);
+//         return messageData;
+//       }));
+//       setChatMessages(fetchedMessages);
+//     });
+
+//     return () => unsubscribe();
+//   }, [ticketId]);
+
+//   // Function to fetch the First_Name and Last_Name of a sender
+//   const fetchSenderDetails = async (senderId) => {
+//     if (sendersMap[senderId]) {
+//       return sendersMap[senderId]; // Return cached sender details
+//     }
+
+//     const db = getFirestore();
+//     const userRef = doc(db, `users/${senderId}`);
+//     try {
+//       const userDoc = await getDoc(userRef);
+//       if (userDoc.exists()) {
+//         const { First_Name, Last_Name } = userDoc.data();
+//         const senderDetails = `${First_Name} ${Last_Name}`;
+//         setSendersMap((prevMap) => ({ ...prevMap, [senderId]: senderDetails })); // Cache sender details
+//         return senderDetails;
+//       } else {
+//         return 'Unknown Sender';
+//       }
+//     } catch (err) {
+//       console.error("Error fetching sender details:", err);
+//       return 'Unknown Sender';
+//     }
+//   };
+  
+// const sendMessage = async () => {
+//   const auth = getAuth();
+//   const user = auth.currentUser;
+
+//   if (!user || !newMessage.trim()) return; // Ensure user is authenticated and message isn't empty
+
+//   const newMessageData = {
+//     message: newMessage,              // Message content
+//     senderId: user.uid,               // User ID of the sender
+//     timestamp: serverTimestamp(),      // Firebase server timestamp
+//   };
+
+//   try {
+//     // Add a new message document to the ChatSection collection
+//     await addDoc(collection(db, `ChatSection/${ticketId}/messages`), newMessageData);
+
+//     // Clear the input field after sending
+//     setNewMessage('');
+//   } catch (err) {
+//     console.error("Error sending message:", err);
+//     SweetAlert.fire('Error', 'Could not send message', 'error');
+//   }
+// };
+
+//   // Show loading or error messages
+//   if (loading) return <Typography variant="h6">Loading...</Typography>;
+//   if (error) return <Typography variant="h6" color="error">{error}</Typography>;
+
+//   return (
+//     <Container maxWidth="lg" className="ticket-details-container">
+//       <Sidebar isOpen={isSidebarOpen} toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
+  
+//       <div className={`ticket-main ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+//         <Paper elevation={4} className="ticket-details-paper">
+//           <Typography variant="h4" className="ticket-title" gutterBottom>
+//             {ticket.subject}
+//           </Typography>
+//           {/* <Typography variant="subtitle1" className="ticket-date">
+//             Created on: {ticket.created ? ticket.created.toDate().toLocaleDateString() : 'N/A'}
+//           </Typography> */}
+  
+//           <Divider className="divider-spacing" />
+  
+//           <div className="ticket-details-content">
+//             <Grid container spacing={4}>
+//               <Grid item xs={12} md={8}>
+//                 <Typography variant="h6">Description:</Typography>
+//                 <Typography className="ticket-description">{ticket.description}</Typography>
+  
+//                 <Divider className="divider-spacing" />
+  
+//                 <div style={{ marginTop: '150px' }}>
+//                   <Typography variant="h6">Reply:</Typography>
+//                   <TextField
+//                     multiline
+//                     rows={4}
+//                     variant="outlined"
+//                     fullWidth
+//                     placeholder="Enter Message..."
+//                     value={newMessage}
+//                     onChange={(e) => setNewMessage(e.target.value)}
+//                     className="reply-input"
+//                   />
+//                   <Button variant="contained" color="primary" onClick={sendMessage} className="send-button">
+//                     Send
+//                   </Button>
+//                 </div>
+//               </Grid>
+  
+//               <Grid item xs={12} md={4}>
+//                 <Paper className="ticket-info">
+//                   <Typography variant="h6">Ticket Info</Typography>
+//                   <Divider className="divider-spacing" />
+//                   <Typography><strong>Device Type:</strong> {ticket.deviceType || 'N/A'}</Typography>
+//                   <Typography><strong>Ticket ID:</strong> {ticket.id}</Typography>
+//                   <Typography>
+//                     <strong>Status:</strong> <Chip label={ticket.status || 'N/A'} color="primary" size="small" />
+//                   </Typography>
+//                   <Typography>
+//                     <strong>Priority:</strong>
+//                     <Chip label={ticket.priority || 'N/A'} color={ticket.priority === 'high' ? 'error' : ticket.priority === 'medium' ? 'warning' : 'success'} size="small" />
+//                   </Typography>
+//                   <Typography><strong>Issue Type:</strong> {ticket.issueType || 'N/A'}</Typography>
+//                   {/* <Typography>
+//                     <Attachment fontSize="small" /> <strong>Attached File:</strong>
+//                     {ticket.attachmentUrl && (
+//                       <a href={ticket.attachmentUrl} target="_blank" rel="noopener noreferrer">
+//                         View Attachment
+//                       </a>
+//                     )}
+//                   </Typography> */}
+
+//                   <Typography>
+//   <Attachment fontSize="small" /> <strong>Attached File:</strong>
+//   {ticket.attachmentURL && (
+//     <a href={ticket.attachmentURL} target="_blank" rel="noopener noreferrer">
+//       View Attachment
+//     </a>
+//   )}
+// </Typography>
+//                 </Paper>
+  
+//                 <Divider className="divider-spacing" />
+  
+//                 <div className="ticket-responsibility">
+//                   <Typography variant="h6">Responsibility</Typography>
+//                   <Typography>Name: {ticket.assignedTo || 'Not assigned'}</Typography>
+//                 </div>
+//               </Grid>
+//             </Grid>
+  
+//             <Divider className="divider-spacing" />
+            
+//             <Typography variant="h6">Chat Section:</Typography>
+//             <List>
+//               {chatMessages.map((msg) => (
+//                 <ListItem key={msg.id}>
+//                   <ListItemText 
+//                     primary={msg.message} 
+//                     secondary={`${msg.senderName} - ${msg.timestamp ? msg.timestamp.toDate().toLocaleString() : 'N/A'}`} 
+//                   />
+//                 </ListItem>
+//               ))}
+//             </List>
+//           </div>
+//         </Paper>
+//       </div>
+//     </Container>
+//   );
+  
+// };
+
+// export default TicketDetails;
+
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
@@ -418,11 +680,9 @@ import {
   orderBy,
   onSnapshot,
   serverTimestamp,
-  updateDoc,
-  arrayUnion,
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import {db} from '../../../firebase/firebaseconfig.js'
+import { db } from '../../../firebase/firebaseconfig.js';
 import {
   Container,
   Paper,
@@ -441,7 +701,6 @@ import './Mytickets.css';
 import { Attachment } from '@mui/icons-material';
 import SweetAlert from 'sweetalert2';
 
-
 const TicketDetails = () => {
   const { ticketId } = useParams();
   const [ticket, setTicket] = useState(null);
@@ -451,15 +710,14 @@ const TicketDetails = () => {
   const [newMessage, setNewMessage] = useState(''); // Input message
   const [chatMessages, setChatMessages] = useState([]); // Store chat messages
   const [sendersMap, setSendersMap] = useState({}); // Store sender details
-  const [messages, setMessages] = useState([]);
-  
+
+  const auth = getAuth();
+  const user = auth.currentUser ; // Define user here
+
   useEffect(() => {
     const fetchTicketDetails = async () => {
-      const auth = getAuth();
-      const user = auth.currentUser;
-
       if (!user) {
-        setError('User is not authenticated');
+        setError('User  is not authenticated');
         setLoading(false);
         return;
       }
@@ -483,13 +741,10 @@ const TicketDetails = () => {
     };
 
     fetchTicketDetails();
-  }, [ticketId]);
+  }, [ticketId, user]); // Add user to the dependency array
 
   // Fetch chat messages in real-time from Firestore's ChatSection collection
   useEffect(() => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
     if (!user) return;
 
     const db = getFirestore();
@@ -508,7 +763,7 @@ const TicketDetails = () => {
     });
 
     return () => unsubscribe();
-  }, [ticketId]);
+  }, [ticketId, user]); // Add user to the dependency array
 
   // Function to fetch the First_Name and Last_Name of a sender
   const fetchSenderDetails = async (senderId) => {
@@ -533,30 +788,27 @@ const TicketDetails = () => {
       return 'Unknown Sender';
     }
   };
-  
-const sendMessage = async () => {
-  const auth = getAuth();
-  const user = auth.currentUser;
 
-  if (!user || !newMessage.trim()) return; // Ensure user is authenticated and message isn't empty
+  const sendMessage = async () => {
+    if (!user || !newMessage.trim()) return; // Ensure user is authenticated and message isn't empty
 
-  const newMessageData = {
-    message: newMessage,              // Message content
-    senderId: user.uid,               // User ID of the sender
-    timestamp: serverTimestamp(),      // Firebase server timestamp
+    const newMessageData = {
+      message: newMessage,              // Message content
+      senderId: user.uid,               // User ID of the sender
+      timestamp: serverTimestamp(),      // Firebase server timestamp
+    };
+
+    try {
+      // Add a new message document to the ChatSection collection
+      await addDoc(collection(db, `ChatSection/${ticketId}/messages`), newMessageData);
+
+      // Clear the input field after sending
+      setNewMessage('');
+    } catch (err) {
+      console.error("Error sending message:", err);
+      SweetAlert.fire('Error', 'Could not send message', 'error');
+    }
   };
-
-  try {
-    // Add a new message document to the ChatSection collection
-    await addDoc(collection(db, `ChatSection/${ticketId}/messages`), newMessageData);
-
-    // Clear the input field after sending
-    setNewMessage('');
-  } catch (err) {
-    console.error("Error sending message:", err);
-    SweetAlert.fire('Error', 'Could not send message', 'error');
-  }
-};
 
   // Show loading or error messages
   if (loading) return <Typography variant="h6">Loading...</Typography>;
@@ -571,9 +823,6 @@ const sendMessage = async () => {
           <Typography variant="h4" className="ticket-title" gutterBottom>
             {ticket.subject}
           </Typography>
-          {/* <Typography variant="subtitle1" className="ticket-date">
-            Created on: {ticket.created ? ticket.created.toDate().toLocaleDateString() : 'N/A'}
-          </Typography> */}
   
           <Divider className="divider-spacing" />
   
@@ -585,7 +834,31 @@ const sendMessage = async () => {
   
                 <Divider className="divider-spacing" />
   
-                <div style={{ marginTop: '150px' }}>
+                <Typography variant="h6">Chat Section:</Typography>
+                <div className="chat-section" style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                  <List>
+                    {chatMessages.map((msg) => (
+                      <ListItem key={msg.id} style={{
+                        backgroundColor: msg.senderId === user.uid ? '#d1e7dd' : '#e2e3e5',
+                        alignSelf: msg.senderId === user.uid ? 'flex-end' : 'flex-start',
+                        textAlign: msg.senderId === user.uid ? 'right' : 'left',
+                        borderRadius: '6px',
+                        marginBottom: '10px',
+                        padding: '10px',
+                        fontSize: '0.9rem'
+                      }}>
+                        <ListItemText 
+                          primary={msg.message} 
+                          secondary={`${msg.senderName} - ${msg.timestamp ? msg.timestamp.toDate().toLocaleString() : 'N/A'}`} 
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </div>
+
+                <Divider className="divider-spacing" />
+
+                <div style={{ marginTop: '20px' }}>
                   <Typography variant="h6">Reply:</Typography>
                   <TextField
                     multiline
@@ -617,53 +890,29 @@ const sendMessage = async () => {
                     <Chip label={ticket.priority || 'N/A'} color={ticket.priority === 'high' ? 'error' : ticket.priority === 'medium' ? 'warning' : 'success'} size="small" />
                   </Typography>
                   <Typography><strong>Issue Type:</strong> {ticket.issueType || 'N/A'}</Typography>
-                  {/* <Typography>
+                  <Typography>
                     <Attachment fontSize="small" /> <strong>Attached File:</strong>
-                    {ticket.attachmentUrl && (
-                      <a href={ticket.attachmentUrl} target="_blank" rel="noopener noreferrer">
+                    {ticket.attachmentURL && (
+                      <a href={ticket.attachmentURL} target="_blank" rel="noopener noreferrer">
                         View Attachment
                       </a>
                     )}
-                  </Typography> */}
-
-                  <Typography>
-  <Attachment fontSize="small" /> <strong>Attached File:</strong>
-  {ticket.attachmentURL && (
-    <a href={ticket.attachmentURL} target="_blank" rel="noopener noreferrer">
-      View Attachment
-    </a>
-  )}
-</Typography>
+                  </Typography>
                 </Paper>
   
                 <Divider className="divider-spacing" />
   
                 <div className="ticket-responsibility">
-                  <Typography variant="h6">Responsibility</Typography>
+ <Typography variant="h6">Responsibility</Typography>
                   <Typography>Name: {ticket.assignedTo || 'Not assigned'}</Typography>
                 </div>
               </Grid>
             </Grid>
-  
-            <Divider className="divider-spacing" />
-            
-            <Typography variant="h6">Chat Section:</Typography>
-            <List>
-              {chatMessages.map((msg) => (
-                <ListItem key={msg.id}>
-                  <ListItemText 
-                    primary={msg.message} 
-                    secondary={`${msg.senderName} - ${msg.timestamp ? msg.timestamp.toDate().toLocaleString() : 'N/A'}`} 
-                  />
-                </ListItem>
-              ))}
-            </List>
           </div>
         </Paper>
       </div>
     </Container>
   );
-  
 };
 
 export default TicketDetails;

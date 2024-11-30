@@ -97,7 +97,7 @@
   padding: 15px;
   border-radius: 8px;
   margin: 20px 0;
-  background: rgba(233, 236, 239,  0.9);
+  background: rgba(233, 236, 239, 0.9);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
@@ -140,7 +140,7 @@
 
 /* Avatar Bounce Animation */
 .ticket-responsibility Avatar {
-  animation: bounceIn 1.2s ease-in-out;
+ animation: bounceIn 1.2s ease-in-out;
 }
 
 @keyframes bounceIn {
@@ -176,6 +176,13 @@
   overflow: hidden; /* Hide overflow to manage scrolling */
 }
 
+.chat-section {
+  border: 1px solid #ccc; /* Optional: Add a border for better visibility */
+  border-radius: 4px; /* Optional: Add rounded corners */
+  padding: 10px; /* Optional: Add some padding */
+  background-color: #f9f9f9; /* Optional: Background color */
+}
+
 /* Scrollable Chat Messages */
 .chat-messages {
   height: calc(100% - 100px); /* Adjust height to leave space for the reply section */
@@ -197,7 +204,7 @@
 /* Sender Message Styling */
 .message-item .sender {
   font-weight: bold; /* Bold sender name */
-  color: #007bff; /* Color for sender name */
+  color: #0d6efd; /* Color for sender name */
 }
 
 /* Sent Message Styling */
@@ -209,7 +216,7 @@
 
 /* Received Message Styling */
 .message-item.received {
-  background-color: #f9f9f9; /* Light gray for received messages */
+  background-color: #e2e3e5; /* Light gray for received messages */
   align-self: flex-start; /* Align received messages to the left */
   text-align: left; /* Align text to the left */
 }

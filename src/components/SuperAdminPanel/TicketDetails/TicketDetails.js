@@ -465,6 +465,7 @@ import {
   serverTimestamp,
   onSnapshot,
   setDoc,
+  where,
 } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import SweetAlert from "sweetalert2";
@@ -488,16 +489,50 @@ const TicketDetail = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
+    // const fetchAdmins = async () => {
+    //   const userDocs = await getDocs(collection(db, "users"));
+    //   const adminData = userDocs.docs
+    //     .filter((doc) => doc.data().role === "Admin")
+    //     .map((doc) => ({
+    //       id: doc.id,
+    //       name: `${doc.data().First_Name} ${doc.data().Last_Name}`,
+    //       employeeId: doc.data().Employee_ID,
+    //     }));
+    //   setAdmins(adminData);
+    // };
     const fetchAdmins = async () => {
-      const userDocs = await getDocs(collection(db, "users"));
-      const adminData = userDocs.docs
-        .filter((doc) => doc.data().role === "Admin")
-        .map((doc) => ({
-          id: doc.id,
-          name: `${doc.data().First_Name} ${doc.data().Last_Name}`,
-          employeeId: doc.data().Employee_ID,
+      try {
+        // Fetch all users from the "users" collection
+        const userDocs = await getDocs(collection(db, "users"));
+        
+        // Filter out the admins and map their data
+        const adminData = userDocs.docs
+          .filter((doc) => doc.data().role === "Admin")
+          .map((doc) => ({
+            id: doc.id,
+            name: `${doc.data().First_Name} ${doc.data().Last_Name}`,
+            employeeId: doc.data().Employee_ID,
+          }));
+    
+        // Fetch ticket counts for each admin
+        const adminCounts = await Promise.all(adminData.map(async (admin) => {
+          const ticketsQuery = query(
+            collection(db, "TicketList"),
+            where("assignedId", "==", admin.employeeId) // Query to count tickets assigned to this admin
+          );
+          const ticketDocs = await getDocs(ticketsQuery);
+          return {
+            ...admin,
+            ticketCount: ticketDocs.size, // Count of tickets assigned to this admin
+          };
         }));
-      setAdmins(adminData);
+    
+        // Update the state with the admin data including ticket counts
+        setAdmins(adminCounts);
+      } catch (error) {
+        console.error("Error fetching admins:", error);
+        SweetAlert.fire("Error", "Could not fetch admins", "error");
+      }
     };
 
     const unsubscribe = onSnapshot(
@@ -659,6 +694,7 @@ const TicketDetail = () => {
     const date = new Date(timestamp.seconds * 1000); // Convert Firestore timestamp to Date
     return `${formatDate(date)} at ${formatTime(date)}`; // Use existing formatDate and formatTime functions
   };
+  
   const handleSendMessage = async () => {
     const user = getAuth().currentUser ;
     if (user && messageInput) {
@@ -869,28 +905,28 @@ const TicketDetail = () => {
               </Typography>
 
               <Select
-                value={assignedAdmin}
-                onChange={(event) => handleAdminSelect(event.target.value)}
-                displayEmpty
-                fullWidth
-              >
-                <MenuItem value="" disabled>
-                  Select Admin
-                </MenuItem>
-                <TextField
-                  placeholder="Search Admin"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                  variant="outlined"
-                  size="small"
-                  style={{ marginBottom: '8px' }}
-                />
-                {filteredAdmins.map((admin) => (
-                  <MenuItem key={admin.id} value={admin.name}>
-                    {admin.name}
-                  </MenuItem>
-                ))}
-              </Select>
+  value={assignedAdmin}
+  onChange={(event) => handleAdminSelect(event.target.value)}
+  displayEmpty
+  fullWidth
+>
+  <MenuItem value="" disabled>
+    Select Admin
+  </MenuItem>
+  <TextField
+    placeholder="Search Admin"
+    value={searchTerm}
+    onChange={handleSearchChange}
+    variant="outlined"
+    size="small"
+    style={{ marginBottom: '8px' }}
+  />
+  {filteredAdmins.map((admin) => (
+    <MenuItem key={admin.id} value={admin.name}>
+      {admin.name} ({admin.ticketCount}) {/* Display count next to admin name */}
+    </MenuItem>
+  ))}
+</Select>
             </Paper>
           </Grid>
         </Grid>
